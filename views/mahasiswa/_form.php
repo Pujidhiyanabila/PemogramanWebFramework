@@ -18,13 +18,14 @@ use kartik\date\DatePicker;
 
 <div class="mahasiswa-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <?= $form->field($model, 'nim')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 
-    <?= $form -> field($model,'jekel')->radioList(array('L'=>'Laki-Laki','P'=>'Perempuan')) -> label('Jenis Kelamin') ?>
+    <?= $form -> field($model,'jekel')->radioList(array(
+        'L'=>'Laki-Laki','P'=>'Perempuan')) ?>
 
     <?= $form->field($model, 'tgllahir')->widget(DatePicker::classname(),
         [
@@ -34,10 +35,11 @@ use kartik\date\DatePicker;
                 'autoclose'=>true,
                 'format' => 'yyyy-mm-dd'
             ]
-        ]) -> label('Tanggal Lahir') ?>
+
+        ]) ?>
 
     <?= $form->field($model, 'id_jurusan') -> dropDownList(Jurusan::getJurusan(),
-        ['id' => 'cat-id', 'prompt' => 'Pilih Jurusan...']) -> label('ID Jurusan') ?>
+        ['id' => 'cat-id', 'prompt' => 'Pilih Jurusan...']) ?>
 
     <?= $form->field($model, 'id_prodi') -> widget(DepDrop::classname(),
         [
@@ -49,11 +51,13 @@ use kartik\date\DatePicker;
                 'placeholder' => 'Pilih Prodi...',
                 'url' => Url::to(['mahasiswa/subcat'])
             ]
-        ]) -> label('ID Prodi') ?>
+        ]) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'alamat')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'gambar')->fileInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

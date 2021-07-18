@@ -30,9 +30,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'nim',
             'nama',
             'jekel',
+            'tgllahir',
+            'id_jurusan',
             'id_prodi',
-            //'email:email',
-            //'alamat',
+            'email:email',
+            'alamat',
+            [
+                'attribute' => 'foto',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if(!is_null($data->foto)) {
+                        return Html::img(Yii::$app->homeUrl . 'img/' . $data->foto,
+                            ['style' => 'width:50px; height:auto;']
+                        );
+                    } else {
+                        return NULL;
+                    }
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -89,7 +89,14 @@ class MahasiswaController extends Controller
     {
         $model = new Mahasiswa();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        Yii::$app->params['uploadPath'] = Yii::$app->basePath.'/web/img/';
+        if ($model->load(Yii::$app->request->post())) {
+            $img = UploadedFile::getInstance($model, 'gambar');
+            $model->foto = $img->name;
+            $model->gambar = $img;
+            $model->save();
+            $model->gambar->saveAs(Yii::$app->params['uploadPath'].$model->gambar);   
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -109,13 +116,24 @@ class MahasiswaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        Yii::$app->params['uploadPath'] = Yii::$app->basePath.'/web/img/';
+        if ($model->load(Yii::$app->request->post())) {
+            $old = $model->foto;
+                if($old="") {
+                    unlinlk(Yii::$app->basePath.'/web/img/' . $old);
+                }
+                $img = UploadedFile::getInstance($model, 'gambar');
+                $model->foto = $img->name;
+                $model->gambar = $img;
+                $model->save();
+                $model->gambar->saveAs(Yii::$app->params['uploadPath'].$model->gambar);
+
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render('update', ['model' => $model
+    ]);
     }
 
     /**
