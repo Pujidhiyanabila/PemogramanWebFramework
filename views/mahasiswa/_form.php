@@ -7,6 +7,7 @@ use app\models\Prodi;
 use app\models\Jurusan;
 use yii\helpers\Url;
 use kartik\depdrop\DepDrop;
+use kartik\date\DatePicker;
 
 
 
@@ -25,7 +26,15 @@ use kartik\depdrop\DepDrop;
 
     <?= $form -> field($model,'jekel')->radioList(array('L'=>'Laki-Laki','P'=>'Perempuan')) -> label('Jenis Kelamin') ?>
 
-    <?= $form->field($model, 'tgllahir')->textInput() -> label('Tanggal Lahir') ?>
+    <?= $form->field($model, 'tgllahir')->widget(DatePicker::classname(),
+        [
+            'options' => ['placeholder' => 'Pilih Tanggal...'],
+            'pluginOptions' => 
+            [
+                'autoclose'=>true,
+                'format' => 'yyyy-mm-dd'
+            ]
+        ]) -> label('Tanggal Lahir') ?>
 
     <?= $form->field($model, 'id_jurusan') -> dropDownList(Jurusan::getJurusan(),
         ['id' => 'cat-id', 'prompt' => 'Pilih Jurusan...']) -> label('ID Jurusan') ?>
